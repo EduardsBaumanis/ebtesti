@@ -175,7 +175,7 @@ function routeFromUrl() {
 
 function playerPlaylists() {
   if (typeof PLAYLISTS === 'undefined') return [];
-  return PLAYLISTS.filter(pl => typeof pl.path === 'string' && pl.path.includes('collections/'));
+  return PLAYLISTS.filter(pl => pl.mode === 'player');
 }
 
 function findPlaylist(plId) {
@@ -242,8 +242,13 @@ function repoRelativePath(pl) {
   const resolved = new URL(pl.path, window.location.href).pathname;
   const parts = resolved.split('/').filter(Boolean);
   const idx = parts.indexOf('collections');
-  if (idx === -1) return null;
-  return parts.slice(idx).join('/').replace(/\/$/, '');
+  if (idx !== -1) return parts.slice(idx).join('/').replace(/\/$/, '');
+  // Deployed Pages build flattens apps/* and collections/* to the site
+  // root (see .github/workflows/pages.yml), so the resolved URL never
+  // contains a "collections" segment there — fall back to the last path
+  // segment, which is the collection's folder name either way.
+  const name = parts[parts.length - 1];
+  return name ? `collections/${name}` : null;
 }
 
 async function discoverViaGithub(folderPath) {
