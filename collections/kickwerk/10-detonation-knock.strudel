@@ -1,0 +1,39 @@
+// Album: Kickwerk
+// Track: 10 — detonation-knock
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 167 BPM (setcpm 41.75)
+// Bass concept: A1 sub locked to the main pulse; it doesn't follow the knock — only the kick does.
+// Kick character: hard and hot, sitting right at the edge of control.
+// Musical idea: Engine knock — fuel igniting early, uncontrolled. A steady four-on-the-floor with a
+//   constant light dropout (things almost not firing) and, 15% of the time, a hit stutters into a fast
+//   ply(3) triplet instead of landing clean — pre-ignition rattling ahead of the main stroke.
+// Strudel focus: .degradeBy(0.08) baseline instability layered with .sometimesBy(0.15, x => x.ply(3)).
+// Visualisation: ._punchcard({ cycles: 2, smear: true }) — smear blurs the stutters into a rattle.
+
+setcpm(41.75)
+
+stack(
+
+  // ── KICK — knocking, occasionally stuttering ──────────────────────
+  s("bd*4")
+    .shape(0.55).distort(1.2).lpf(195)
+    .gain(0.9)
+    .degradeBy(0.08)
+    .sometimesBy(0.15, x => x.ply(3))
+    .color("red")
+    ._punchcard({ cycles: 2, smear: true }),
+
+  // ── SUB — the only steady thing here ──────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.14).shape(0.1)
+    .gain(0.56)
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("hh*16").gain(0.18).hpf(7300)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.42).hpf(400).room(0.18)
+    .color("coral")
+)

@@ -1,0 +1,41 @@
+// Album: Kickwerk
+// Track: 03 — piston
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 153 BPM (setcpm 38.25)
+// Bass concept: A1 sub still locked to the kick, but now the kick pattern itself moves — push, pull, push.
+// Kick character: distorted, mid-hard shape/lpf — a working stroke rather than a flat hammer.
+// Musical idea: A piston's up-down stroke — "bd bd ~ bd" instead of straight four, and every 4th bar
+//   the down-stroke doubles into a quick ply(2) knock, like the rod hitting twice before it resets.
+// Strudel focus: irregular kick struct ("bd bd ~ bd"); .every(4, x => x.ply(2)) for the double-knock.
+// Visualisation: ._punchcard({ cycles: 4 }) — four bars is enough to see the stroke cycle land.
+
+setcpm(38.25)
+
+stack(
+
+  // ── KICK — piston stroke ─────────────────────────────────────────
+  s("bd bd ~ bd")
+    .shape(0.52).distort(1.15).lpf(200)
+    .gain(0.9)
+    .every(4, x => x.ply(2))
+    .color("red")
+    ._punchcard({ cycles: 4 }),
+
+  // ── SUB — locked body ─────────────────────────────────────────────
+  note("a1 a1 ~ a1")
+    .sound("sine").attack(0.001).release(0.13).shape(0.1)
+    .gain(0.56)
+    .color("navy"),
+
+  // ── METAL CLANK — rod hitting the housing ────────────────────────
+  s("~ ~ metal ~").gain(0.24).hpf(1500).room(0.2)
+    .color("silver"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("hh*8").gain("0.22 0.14").hpf(7200)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.46).hpf(400).room(0.2)
+    .color("coral")
+)

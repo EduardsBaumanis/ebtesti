@@ -1,0 +1,38 @@
+// Album: Kickwerk
+// Track: 14 — redline
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 174 BPM (setcpm 43.5)
+// Bass concept: A1 sub pushed louder than anywhere else on the album — matching the kick at the limit.
+// Kick character: distortion and gain both sit at the album's ceiling — nothing past this track is
+//   "cleaner," only heavier in different ways.
+// Musical idea: Running the needle into the red. Maximum distort, tight lpf so it stays a weapon and
+//   not noise, and every 4th cycle the whole kick grinds through a bitcrush like the engine protesting.
+// Strudel focus: distort(1.4) at the album ceiling; .every(4, x => x.crush(6)) periodic grind.
+// Visualisation: ._punchcard({ cycles: 2, flipTime: true }) — flipped time reads the grind as a wall.
+
+setcpm(43.5)
+
+stack(
+
+  // ── KICK — redlined ────────────────────────────────────────────────
+  s("bd*4")
+    .shape(0.62).distort(1.4).lpf(175)
+    .gain(0.95)
+    .every(4, x => x.crush(6))
+    .color("crimson")
+    ._punchcard({ cycles: 2, flipTime: true }),
+
+  // ── SUB — matched to the ceiling ──────────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.12).shape(0.16)
+    .gain(0.62)
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("hh*16").gain(0.2).hpf(7500)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.5).hpf(430).room(0.16)
+    .color("coral")
+)

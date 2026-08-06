@@ -1,0 +1,37 @@
+// Album: Kickwerk
+// Track: 06 — torque
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 159 BPM (setcpm 39.75)
+// Bass concept: A1 sub locked to the kick — steady, while the kick's own tone gets twisted overhead.
+// Kick character: open lpf(260) baseline that gets torqued down to 160 on a rotating quarter each cycle.
+// Musical idea: Torque is force applied as rotation. The kick pattern never changes, but .chunk(4, ...)
+//   picks a different quarter of the bar each cycle and clamps its filter down — over four cycles the
+//   "tight" spot walks all the way around the loop, like a wrench working its way around a bolt.
+// Strudel focus: .chunk(4, x => x.lpf(160)) after a base .lpf(260) — chunk only overrides its slice.
+// Visualisation: ._punchcard({ cycles: 4, labels: true }) — four cycles show the tight spot rotate.
+
+setcpm(39.75)
+
+stack(
+
+  // ── KICK — filter torqued around the loop, one quarter at a time ─
+  s("bd*4")
+    .shape(0.5).distort(1.1).lpf(260).gain(0.9)
+    .chunk(4, x => x.lpf(160))
+    .color("red")
+    ._punchcard({ cycles: 4, labels: true }),
+
+  // ── SUB — steady, unaffected by the twist ─────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.14).shape(0.1)
+    .gain(0.56)
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("hh*8").gain(0.2).hpf(7300)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.46).hpf(420).room(0.18)
+    .color("coral")
+)

@@ -138,8 +138,13 @@ function stopEngine() {
 // ── File loading & metadata ───────────────────────────────────────────────────
 
 function parseMeta(filename, code) {
-  // Song files (lofi / rim / acid) have: // "Title"
-  const quotedTitle = code.match(/^\/\/\s*"([^"]+)"/m);
+  // Song files (lofi / rim / acid) have: // "Title" on one of the first few
+  // header lines. Restrict the search to that header window rather than the
+  // whole file — a bare /m match against the full text will happily grab a
+  // quoted word from deeper prose comments (e.g. a "Musical idea:" line
+  // that quotes a phrase and happens to wrap so the quote opens a line).
+  const header      = code.split('\n').slice(0, 4).join('\n');
+  const quotedTitle = header.match(/^\/\/\s*"([^"]+)"/m);
 
   if (quotedTitle) {
     const afterTitle  = code.match(/^\/\/\s*"[^"]+"\n\/\/\s*(.+)/m);

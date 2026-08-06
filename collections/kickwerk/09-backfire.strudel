@@ -1,0 +1,38 @@
+// Album: Kickwerk
+// Track: 09 — backfire
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 165 BPM (setcpm 41.25)
+// Bass concept: A1 sub still rides the main hits, but drops out on the backfire so the misfire reads
+//   as a different event, not just another kick.
+// Kick character: mostly the usual hard hit, but random hits get bit-crushed into a dirty crack.
+// Musical idea: An engine backfiring — an irregular kick pattern with a hit that shouldn't be there,
+//   and a random 20% chance any given hit gets crushed into a harsh misfire instead of firing clean.
+// Strudel focus: irregular struct ("bd ~ bd bd ~ bd ~ ~"); .sometimesBy(0.2, x => x.crush(4)) misfires.
+// Visualisation: ._punchcard({ cycles: 4, labels: true }) — labels make the irregular hits easy to read.
+
+setcpm(41.25)
+
+stack(
+
+  // ── KICK — irregular pattern, random misfires ────────────────────
+  s("bd ~ bd bd  ~ bd ~ ~")
+    .shape(0.5).distort(1.15).lpf(190)
+    .gain(0.9)
+    .sometimesBy(0.2, x => x.crush(4))
+    .color("red")
+    ._punchcard({ cycles: 4, labels: true }),
+
+  // ── SUB — only on the main hits ───────────────────────────────────
+  note("a1 ~ a1 ~  ~ a1 ~ ~")
+    .sound("sine").attack(0.001).release(0.13).shape(0.1)
+    .gain(0.56)
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("~ hh ~ hh").gain(0.24).hpf(7100)
+    .color("yellow"),
+
+  // ── CLAP ───────────────────────────────────────────────────────
+  s("~ ~ cp ~").gain(0.44).hpf(400).room(0.2)
+    .color("coral")
+)

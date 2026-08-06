@@ -1,0 +1,37 @@
+// Album: Kickwerk
+// Track: 15 — afterburner
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 175 BPM (setcpm 43.75)
+// Bass concept: A1 sub sits back for seven bars, then punches forward with the kick on the burst.
+// Kick character: a moderate-hot baseline — the contrast is what sells this track, not a constant max.
+// Musical idea: An afterburner dumps extra fuel in for a short, dramatic burst. Seven bars of a
+//   comparatively restrained kick, then the 8th bar ignites — gain and distortion both jump to the
+//   album's ceiling for one bar before dropping straight back to baseline.
+// Strudel focus: .every(8, x => x.gain(1).distort(1.4)) — a real dynamic jump, not a fixed loud hit.
+// Visualisation: ._punchcard({ cycles: 8 }) — long enough to actually see bar 8 light up.
+
+setcpm(43.75)
+
+stack(
+
+  // ── KICK — baseline, then the burst on bar 8 ──────────────────────
+  s("bd*4")
+    .shape(0.5).distort(1.05).lpf(190).gain(0.82)
+    .every(8, x => x.gain(1).distort(1.4))
+    .color("red")
+    ._punchcard({ cycles: 8 }),
+
+  // ── SUB — locked, rides the burst too ─────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.13).shape(0.1).gain(0.5)
+    .every(8, x => x.gain(0.64))
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("hh*16").gain(0.18).hpf(7400)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.44).hpf(420).room(0.18)
+    .color("coral")
+)

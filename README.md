@@ -53,6 +53,7 @@ Strudel IDE, vērtēšanu un līderlisti:
 | [`collections/finisher/`](collections/finisher/) | Noslēguma albums — 40 skaņdarbi, kas iziet cauri repo attīstības posmiem no ritma pamatiem līdz pēdējai arhīva elpai | 40 |
 | [`collections/underused-palette/`](collections/underused-palette/) | Reto skaņu un nošu albums — 40 skaņdarbi no kataloga "Underused Palette Ideas" (`alphabet:*`, `numbers:*`, `amen`, `break`, ekstremāli reģistri) | 40 |
 | [`collections/fog-techno/`](collections/fog-techno/) | Migla tehno — hipnotisks dub-tehno albums, kas seko miglai no krastmalas līdz rītausmai; katrā no 24 dziesmām katrs slānis (kick, bass, hats, pads, migla-troksnis u.c.) ir pilnībā vadāms — katrs gain/filtrs/ADSR/telpa/aizture ir `slider(...)`, pat ja noklusējums ir 0 | 24 |
+| [`collections/kickwerk/`](collections/kickwerk/) | Smags tehno / gabber — albums, kas pilnībā veltīts kick bungai kā mašīnai; 20 dziesmas, katra pēta citu Strudel paņēmienu (`every`, `chunk`, `off`, `euclid`, `sometimesBy`, `_punchcard`) uz viena un tā paša izkropļotā `bd*4` pamata | 20 |
 
 Daži favorīti:
 
@@ -67,6 +68,7 @@ Daži favorīti:
 - `collections/finisher/40-end-of-experiment` — noslēguma drons: pulss, koris, lietus un pēdējā nots
 - `collections/underused-palette/40-underused-palette-choir` — reto semplu un ekstremālo nošu koris
 - `collections/fog-techno/17-fogbound` — hipnotiska cilpa, kur nekas nesatur — visi 109 sliders sākumā stāv nekustīgi
+- `collections/kickwerk/16-sledge` — albuma smagākā dziesma: divi kick slāņi uz viena, ceiling distortion, lielākais breakdown
 
 ---
 

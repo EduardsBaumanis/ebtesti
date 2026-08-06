@@ -1,0 +1,38 @@
+// Album: Kickwerk
+// Track: 05 — crankshaft
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 157 BPM (setcpm 39.25)
+// Bass concept: A1 sub still locked to the kick's *4 pulse — the straight motion the crank converts.
+// Kick character: hard shape, mid lpf — the constant the rest of the machine has to translate.
+// Musical idea: A crankshaft turns one straight motion into rotation — the kick stays a plain four-on-
+//   the-floor "piston," while a metal hit rides a euclidean 3-against-4 on top of it, always landing
+//   somewhere different relative to the kick. Two mechanisms, two time signatures, one engine.
+// Strudel focus: s("metal").euclid(3,4) layered against a static kick pulse — the polyrhythm is the point.
+// Visualisation: ._punchcard({ cycles: 4, vertical: true }) — vertical reads the two grids crossing.
+
+setcpm(39.25)
+
+stack(
+
+  // ── KICK — the straight stroke ───────────────────────────────────
+  s("bd*4")
+    .shape(0.5).distort(1.1).lpf(195)
+    .gain(0.9)
+    .color("red")
+    ._punchcard({ cycles: 4, vertical: true }),
+
+  // ── SUB — locked body ─────────────────────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.14).shape(0.1)
+    .gain(0.56)
+    .color("navy"),
+
+  // ── CRANK — metal hit in 3-against-4 ──────────────────────────────
+  s("metal").euclid(3, 4)
+    .gain(0.3).hpf(1200).room(0.22)
+    .color("silver"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("~ hh ~ hh").gain(0.24).hpf(7000)
+    .color("yellow")
+)

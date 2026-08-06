@@ -1,0 +1,33 @@
+// Album: Kickwerk
+// Track: 20 — shutdown
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 140 BPM (setcpm 35)
+// Bass concept: A1 sub, longest release on the album — the body keeps ringing after the kick stops.
+// Kick character: soft-edged now, gain on a slider so the listener can be the one who cuts the power.
+// Musical idea: The engine shuts down. Kick pattern drops to two hits a bar, distortion is nearly gone,
+//   and the master gain is a slider defaulting near the bottom of its range — drag it up to keep the
+//   machine running, or let it sit and the album ends the way it started: quiet.
+// Strudel focus: .gain(slider(0.5, 0, 0.95)) handed to the listener as the final control of the record.
+// Visualisation: ._punchcard({ cycles: 4, playhead: true }) — watch the last hits go by in real time.
+
+setcpm(35)
+
+stack(
+
+  // ── KICK — sparse, gain in the listener's hand ────────────────────
+  s("bd ~ ~ ~  bd ~ ~ ~")
+    .shape(0.3).distort(0.6).lpf(260)
+    .gain(slider(0.5, 0, 0.95))
+    .color("firebrick")
+    ._punchcard({ cycles: 4, playhead: true }),
+
+  // ── SUB — rings out longer than anything else on the album ───────
+  note("a1 ~ ~ ~  a1 ~ ~ ~")
+    .sound("sine").attack(0.01).release(0.6).shape(0.04)
+    .gain(0.4)
+    .color("navy"),
+
+  // ── HATS — thin, almost gone ───────────────────────────────────────
+  s("~ hh ~ ~").gain(0.12).hpf(6500).room(0.2)
+    .color("yellow")
+)

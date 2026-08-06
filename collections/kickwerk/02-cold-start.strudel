@@ -1,0 +1,40 @@
+// Album: Kickwerk
+// Track: 02 — cold-start
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 150 BPM (setcpm 37.5)
+// Bass concept: Same A1 body as track 1, but muffled — the machine hasn't reached working temperature yet.
+// Kick character: lpf held low by default (a cold, boxy thud); drag the slider up to hear it warm into
+//   the full "Ignition" tone. Everything else is deliberately the same recipe, filtered differently.
+// Musical idea: A cold engine before it's warm — the kick is throttled down, one hostile stab checks
+//   the pressure once a bar, and the filter is the whole story.
+// Strudel focus: .lpf(slider(...)) as the single tweakable knob; struct("x ~ ~ ~ ~ ~ ~ ~") for the stab.
+// Visualisation: ._punchcard({ cycles: 2, playhead: true }) — watch the filter thud in real time.
+
+setcpm(37.5)
+
+stack(
+
+  // ── KICK — throttled, filter closed by default ──────────────────
+  s("bd*4")
+    .shape(0.48).distort(1).lpf(slider(140, 90, 900))
+    .gain(0.88)
+    .color("firebrick")
+    ._punchcard({ cycles: 2, playhead: true }),
+
+  // ── SUB — same locked A1 body ────────────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.15).shape(0.1)
+    .gain(0.56)
+    .color("navy"),
+
+  // ── PRESSURE STAB — checks in once a bar ─────────────────────────
+  note("a3")
+    .sound("sawtooth").lpf(1200).lpq(7).distort(0.4)
+    .struct("x ~ ~ ~ ~ ~ ~ ~")
+    .gain(0.34).room(0.25)
+    .color("orange"),
+
+  // ── HATS — thin, still cold ──────────────────────────────────────
+  s("~ hh ~ hh").gain(0.22).hpf(7200)
+    .color("yellow")
+)

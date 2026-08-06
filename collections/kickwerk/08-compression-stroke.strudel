@@ -1,0 +1,39 @@
+// Album: Kickwerk
+// Track: 08 — compression-stroke
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 163 BPM (setcpm 40.75)
+// Bass concept: A1 sub locked to the kick — compressed right alongside it, same dynamic curve.
+// Kick character: the heaviest shape/distort yet — tight lpf, dense and squeezed rather than boomy.
+// Musical idea: An engine's compression stroke squeezes before it fires. Every other cycle the whole
+//   kick drops to a held-down, quieter "squeeze" before releasing back to full gain — a two-cycle
+//   breathing pattern instead of a constant hit.
+// Strudel focus: .every(2, x => x.gain(0.55)) alternating full-gain and squeezed cycles.
+// Visualisation: ._punchcard({ cycles: 2 }) — two cycles is exactly one squeeze-release pair.
+
+setcpm(40.75)
+
+stack(
+
+  // ── KICK — squeeze / release, two cycles at a time ────────────────
+  s("bd*4")
+    .shape(0.62).distort(1.25).lpf(170)
+    .gain(0.92)
+    .every(2, x => x.gain(0.55))
+    .color("red")
+    ._punchcard({ cycles: 2 }),
+
+  // ── SUB — compressed alongside the kick ───────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.12).shape(0.14)
+    .gain(0.58)
+    .every(2, x => x.gain(0.4))
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("hh*16").gain("0.22 0.13").hpf(7200)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.44).hpf(430).room(0.16)
+    .color("coral")
+)

@@ -1,0 +1,36 @@
+// Album: Kickwerk
+// Track: 11 — hydraulic
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 169 BPM (setcpm 42.25)
+// Bass concept: A1 sub locked to the kick, riding underneath whatever the press is doing.
+// Kick character: the lpf is a wide-range slider — push it down and the kick flattens under pressure,
+//   pull it up and it springs back open. This track hands that motion directly to the listener.
+// Musical idea: A hydraulic press — slow, huge, controllable force. One knob does almost all the work.
+// Strudel focus: .lpf(slider(320, 100, 3000)) as the load-bearing control; everything else stays fixed.
+// Visualisation: ._punchcard({ cycles: 3 }) — three cycles, watch the press come down and lift.
+
+setcpm(42.25)
+
+stack(
+
+  // ── KICK — the press, filter under your hand ──────────────────────
+  s("bd*4")
+    .shape(0.5).distort(1.1).lpf(slider(320, 100, 3000))
+    .gain(0.9)
+    .color("red")
+    ._punchcard({ cycles: 3 }),
+
+  // ── SUB — locked, underneath the press ────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.15).shape(0.1)
+    .gain(0.56)
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("~ hh ~ hh").gain(0.24).hpf(7000)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.46).hpf(410).room(0.2)
+    .color("coral")
+)

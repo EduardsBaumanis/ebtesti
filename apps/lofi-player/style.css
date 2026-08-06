@@ -343,6 +343,17 @@
   --code-fg:  #a8bcc4;
 }
 
+/* ── KICKWERK theme — hammered red on machine-steel black ── */
+[data-theme="kickwerk"] {
+  --black:    #0a0808;
+  --white:    #ff3b30;
+  --grey:     #8a7070;
+  --dim:      #160e0e;
+  --mid:      #3a1414;
+  --code-bg:  #0a0808;
+  --code-fg:  #f08a80;
+}
+
 html, body { height: 100%; overflow: hidden; }
 
 body {

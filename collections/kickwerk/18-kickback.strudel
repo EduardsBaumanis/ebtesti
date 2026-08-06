@@ -1,0 +1,37 @@
+// Album: Kickwerk
+// Track: 18 — kickback
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 165 BPM (setcpm 41.25)
+// Bass concept: A1 sub on the main hit only — the recoil is a kick-only phenomenon, the sub stays put.
+// Kick character: a normal hard hit, followed by a quiet, panned, slightly-late ghost of itself.
+// Musical idea: The descent starts here — recoil after every strike. A short offset copy of the kick,
+//   quieter and pushed to one side, trails a sixteenth behind the real hit like the machine bouncing
+//   back from its own force.
+// Strudel focus: .off(0.125, x => x.gain(0.22).pan(0.75).lpf(400)) — a real trailing echo, not reverb.
+// Visualisation: ._punchcard({ cycles: 4, smear: true }) — smear reads the recoil as a soft trail.
+
+setcpm(41.25)
+
+stack(
+
+  // ── KICK — strike, then recoil ───────────────────────────────────
+  s("bd*4")
+    .shape(0.5).distort(1.1).lpf(190).gain(0.88)
+    .off(0.125, x => x.gain(0.22).pan(0.75).lpf(400))
+    .color("red")
+    ._punchcard({ cycles: 4, smear: true }),
+
+  // ── SUB — locked to the strike only ───────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.14).shape(0.1)
+    .gain(0.54)
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("~ hh ~ hh").gain(0.22).hpf(7100)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.42).hpf(400).room(0.2)
+    .color("coral")
+)

@@ -1,0 +1,37 @@
+// Album: Kickwerk
+// Track: 01 — ignition
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 148 BPM (setcpm 37)
+// Bass concept: Kick + sub locked on A1 — the album's one low-end body, stated for the first time.
+// Kick character: distorted but controlled (shape + gentle lpf) — the "clean heavy" baseline every later track pushes past.
+// Musical idea: The engine turns over. Straight four-on-floor, sparse hats, one clap, a small breakdown
+//   every 8 bars — the structural trick ("every N, degrade") this whole album keeps returning to.
+// Strudel focus: .every(8, x => x.degradeBy(0.5)) breakdown; kick/sub sharing the same *4 pulse.
+// Visualisation: ._punchcard({ cycles: 2 }) — kick-centred, reads the plain 4/4 hammer.
+
+setcpm(37)
+
+stack(
+
+  // ── KICK — distorted but controlled ─────────────────────────────
+  s("bd*4")
+    .shape(0.5).distort(1.1).lpf(190)
+    .gain(0.9)
+    .every(8, x => x.degradeBy(0.5))
+    .color("red")
+    ._punchcard({ cycles: 2 }),
+
+  // ── SUB — locked to the kick, one body ──────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.15).shape(0.1)
+    .gain(0.58)
+    .color("navy"),
+
+  // ── HATS — sparse, out of the bass region ───────────────────────
+  s("~ hh ~ hh").gain(0.28).hpf(7000)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.48).hpf(400).room(0.18)
+    .color("coral")
+)

@@ -1,0 +1,37 @@
+// Album: Kickwerk
+// Track: 19 — cooldown
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 152 BPM (setcpm 38)
+// Bass concept: A1 sub, softer release now — the body is still there, just not straining anymore.
+// Kick character: distortion pulled back, lpf opened a little — the same machine, off the redline.
+// Musical idea: Coming off the peak. The kick loses a quarter of its hits at random (never the same
+//   ones twice), gain eases down, and the room finally gets some space instead of being wall-to-wall.
+// Strudel focus: .degradeBy(0.25) thinning a plain four-on-the-floor — less pattern trickery, more space.
+// Visualisation: ._punchcard({ cycles: 4 }) — watch the pattern visibly thin out cycle to cycle.
+
+setcpm(38)
+
+stack(
+
+  // ── KICK — cooling, thinning out ──────────────────────────────────
+  s("bd*4")
+    .shape(0.4).distort(0.85).lpf(230)
+    .gain(0.8)
+    .degradeBy(0.25)
+    .color("firebrick")
+    ._punchcard({ cycles: 4 }),
+
+  // ── SUB — softer release ──────────────────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.003).release(0.22).shape(0.06)
+    .gain(0.48)
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("~ hh ~ hh").gain(0.18).hpf(6800).room(0.15)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4, more room now ──────────────────────────────────
+  s("~ cp ~ cp").gain(0.36).hpf(400).room(0.35)
+    .color("coral")
+)

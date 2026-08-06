@@ -1,0 +1,38 @@
+// Album: Kickwerk
+// Track: 13 — overboost
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 172 BPM (setcpm 43)
+// Bass concept: A1 sub follows the kick's own speed changes, so the boost hits the whole low end at once.
+// Kick character: hard and dense; every 4th cycle the whole pattern doubles into a rolling burst.
+// Musical idea: Turbo overboost — extra pressure dumped in for one cycle out of every four, doubling
+//   the kick's rate into a rolling flurry before dropping straight back to the normal four-on-the-floor.
+// Strudel focus: .every(4, x => x.fast(2)) — a genuine tempo-doubling burst, not just extra hits.
+// Visualisation: ._punchcard({ cycles: 2, playhead: true }) — watch the burst land in real time.
+
+setcpm(43)
+
+stack(
+
+  // ── KICK — doubles into a burst every 4th cycle ───────────────────
+  s("bd*4")
+    .shape(0.52).distort(1.15).lpf(190)
+    .gain(0.9)
+    .every(4, x => x.fast(2))
+    .color("red")
+    ._punchcard({ cycles: 2, playhead: true }),
+
+  // ── SUB — boosts with the kick ────────────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.1).shape(0.1)
+    .gain(0.54)
+    .every(4, x => x.fast(2))
+    .color("navy"),
+
+  // ── HATS ───────────────────────────────────────────────────────
+  s("hh*16").gain(0.18).hpf(7400)
+    .color("yellow"),
+
+  // ── CLAP on 2 + 4 ─────────────────────────────────────────────────
+  s("~ cp ~ cp").gain(0.44).hpf(420).room(0.16)
+    .color("coral")
+)

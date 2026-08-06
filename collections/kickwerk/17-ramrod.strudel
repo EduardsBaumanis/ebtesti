@@ -1,0 +1,32 @@
+// Album: Kickwerk
+// Track: 17 — ramrod
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 174 BPM (setcpm 43.5)
+// Bass concept: A1 sub, locked, nothing else in the low end — no stab, no pad, nothing to get in the way.
+// Kick character: blunt and plain — no breakdown, no chunk, no every(). Just the hit, over and over.
+// Musical idea: After Sledge, the opposite kind of heavy: no technique at all, just force. Three layers,
+//   total. Proof that the kick alone, undecorated, still carries the whole track.
+// Strudel focus: deliberately none — the point of this track is what's left when every trick is removed.
+// Visualisation: ._punchcard({ cycles: 2, vertical: true }) — nothing to read but the hit itself.
+
+setcpm(43.5)
+
+stack(
+
+  // ── KICK — no tricks, just the hit ───────────────────────────────
+  s("bd*4")
+    .shape(0.58).distort(1.25).lpf(180)
+    .gain(0.92)
+    .color("red")
+    ._punchcard({ cycles: 2, vertical: true }),
+
+  // ── SUB — locked, alone ────────────────────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.001).release(0.14).shape(0.12)
+    .gain(0.58)
+    .color("navy"),
+
+  // ── HATS — the only other sound in the room ───────────────────────
+  s("hh*8").gain(0.16).hpf(7300)
+    .color("yellow")
+)

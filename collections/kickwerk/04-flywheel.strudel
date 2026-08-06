@@ -1,0 +1,33 @@
+// Album: Kickwerk
+// Track: 04 — flywheel
+// Genre: Heavy techno / hard kick studies
+// Tempo / CPM: 155 BPM (setcpm 38.75)
+// Bass concept: A1 sub, same body — but now it just spins, cycle after cycle, no accents.
+// Kick character: smooth, rounded distortion — nothing sharp, built for momentum not impact.
+// Musical idea: A flywheel doesn't hit anything, it just keeps turning. Straight kick, a quiet
+//   half-cycle ghost-echo of itself trailing behind it (off 0.5), and nothing else fights for attention.
+// Strudel focus: .off(0.5, x => x.gain(0.15).lpf(300)) — a soft trailing copy instead of a new layer.
+// Visualisation: ._punchcard({ cycles: 8, smear: true }) — long window, blurred, reads as one spinning mass.
+
+setcpm(38.75)
+
+stack(
+
+  // ── KICK — the flywheel itself ───────────────────────────────────
+  s("bd*4")
+    .shape(0.4).distort(0.9).lpf(210)
+    .gain(0.88)
+    .off(0.5, x => x.gain(0.15).lpf(300))
+    .color("red")
+    ._punchcard({ cycles: 8, smear: true }),
+
+  // ── SUB — locked, unwavering ─────────────────────────────────────
+  note("a1*4")
+    .sound("sine").attack(0.002).release(0.2).shape(0.08)
+    .gain(0.54)
+    .color("navy"),
+
+  // ── HATS — even, momentum not accent ─────────────────────────────
+  s("hh*16").gain(0.16).hpf(7500)
+    .color("yellow")
+)
