@@ -1,0 +1,83 @@
+// ══════════════════════════════════════════════════════════════
+// "Breath in Cold Air"
+// Track 11 of 24 · Fog Techno
+//
+// Key:    C Dorian
+// Tempo:  114 BPM  (setcpm 28.5)
+// Mood:   You can see your own exhale for a second before it joins the rest of the fog.
+//
+// SLIDER MAP
+//   lead.attack / lead.release stretched long by default — a breath, not a note.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(28.5, 23.5, 34.5))
+
+stack(
+
+  // ── KICK — one soft heartbeat per cycle ───────────────────────
+  s("bd ~ ~ ~  ~ ~ ~ ~")
+    .gain(slider(0.42, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.25, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.25, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — held low ────────────────────────────────────────────
+  note("c1").sound("sine")
+    .gain(slider(0.55, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.7, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── HATS — nearly silent grain ────────────────────────────────
+  s("hh*8")
+    .gain(slider(0.08, 0, 0.5)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(7000, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── FOG — the breath itself, dissolving ───────────────────────
+  s("white")
+    .gain(slider(0.22, 0, 0.55)).pan(slider(0.5, 0, 1)).lpf(slider(350, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(80, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(1.5, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(3, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — two dorian chords, slow crossfade ───────────────────
+  note("<[c3,eb3,g3] [c3,eb3,g3] [f3,a3,c4] [g3,bb3,d4]>").sound("triangle").vowel("u")
+    .gain(slider(0.3, 0, 0.7)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 200, 6000))
+    .lpq(slider(3, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.45, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(3, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(4, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray"),
+
+  // ── VOWEL — breathy, wordless voice ───────────────────────────
+  note("c4 ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~").sound("sawtooth").vowel("<a e>")
+    .gain(slider(0.24, 0, 0.7)).pan(slider(0.5, 0, 1)).lpf(slider(2200, 300, 8000))
+    .lpq(slider(6, 0, 20)).hpf(slider(150, 20, 2000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.3, 0, 1)).size(slider(0.5, 0, 1))
+    .delay(slider(0.25, 0, 0.9)).delaytime(slider(0.3, 0.06, 1.5)).delayfeedback(slider(0.35, 0, 0.9))
+    .attack(slider(1, 0, 3)).decay(slider(0.1, 0, 1)).sustain(slider(0.2, 0, 1))
+    .release(slider(2.5, 0, 6)).speed(slider(1, 0.5, 2)).vib(slider(0, 0, 8))
+    .vibmod(slider(0, 0, 0.6))
+    .color("powderblue")
+)

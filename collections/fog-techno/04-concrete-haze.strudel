@@ -1,0 +1,92 @@
+// ══════════════════════════════════════════════════════════════
+// "Concrete Haze"
+// Track 4 of 24 · Fog Techno
+//
+// Key:    G Aeolian
+// Tempo:  128 BPM  (setcpm 32)
+// Mood:   Fog off the river meets exhaust heat off the road — industrial and grey.
+//
+// SLIDER MAP
+//   kick.distort-adjacent grit lives in bass.distort; perc.crush turns the metal hits to rust.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(32, 27, 38))
+
+stack(
+
+  // ── KICK — flat, concrete, dead room ──────────────────────────
+  s("bd ~ bd ~  bd bd ~ ~")
+    .gain(slider(0.8, 0, 1.1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.35, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — road hum ────────────────────────────────────────────
+  note("g1 ~ ~ ~  ~ ~ ~ ~").sound("sine")
+    .gain(slider(0.66, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.08, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── BASS — driving eighths ────────────────────────────────────
+  note("g2*2 ~ g2 ~  c3*2 ~ c3 ~  f3*2 ~ f3 ~  bb2*2 ~ bb2 ~").sound("sawtooth")
+    .gain(slider(0.5, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(850, 150, 4000))
+    .lpq(slider(9, 0, 20)).hpf(slider(30, 20, 800)).shape(slider(0.2, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.08, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(0.005, 0, 0.5)).decay(slider(0.15, 0, 1)).sustain(slider(0.3, 0, 1))
+    .release(slider(0.2, 0, 2)).speed(slider(1, 0.5, 2)).distort(slider(0.25, 0, 1.4))
+    .color("steelblue"),
+
+  // ── HATS — sixteenth grid, slightly crushed ───────────────────
+  s("hh*16")
+    .gain(slider(0.22, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(6000, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(9, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── METAL — girders shifting in the haze ──────────────────────
+  s("~ metal ~ ~  metal ~ ~ metal")
+    .gain(slider(0.3, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(4000, 300, 10000))
+    .lpq(slider(3, 0, 20)).hpf(slider(1200, 20, 6000)).shape(slider(0.1, 0, 1))
+    .crush(slider(7, 1, 16)).room(slider(0.25, 0, 1)).size(slider(0.35, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.25, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.08, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.12, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("lightslategray"),
+
+  // ── FOG — heat-haze over wet asphalt ──────────────────────────
+  s("white")
+    .gain(slider(0.15, 0, 0.5)).pan(slider(0.5, 0, 1)).lpf(slider(450, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(80, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(2, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — detuned block chords behind the noise ───────────────
+  note("<[g3,bb3,d4] [c4,eb4,g4] [f4,a4,c5] [bb3,d4,f4]>").sound("sawtooth").vowel("e")
+    .gain(slider(0.22, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 200, 6000))
+    .lpq(slider(3, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.45, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(1.2, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray")
+)

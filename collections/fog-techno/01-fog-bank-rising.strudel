@@ -1,0 +1,93 @@
+// ══════════════════════════════════════════════════════════════
+// "Fog Bank Rising"
+// Track 1 of 24 · Fog Techno
+//
+// Key:    D Aeolian
+// Tempo:  120 BPM  (setcpm 30)
+// Mood:   A wall of grey rolls in over the water — the album opens inside it.
+//
+// SLIDER MAP
+//   fog.lpf is the headline: drag it down and the whole track disappears into mist.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(30, 25, 36))
+
+stack(
+
+  // ── KICK — four on the floor, foundation under the haze ───────
+  s("bd ~ bd ~  bd ~ bd ~")
+    .gain(slider(0.72, 0, 1.1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.25, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — long-release drone under the kick ───────────────────
+  note("d1 ~ ~ ~  ~ ~ ~ ~").sound("sine")
+    .gain(slider(0.65, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.08, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── BASS — walking root motion ────────────────────────────────
+  note("d1 ~ d1 ~  bb1 ~ bb1 ~  c2 ~ c2 ~  d1 ~ d1 ~").sound("sawtooth")
+    .gain(slider(0.42, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(500, 150, 3500))
+    .lpq(slider(9, 0, 20)).hpf(slider(30, 20, 800)).shape(slider(0.2, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.08, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(0.005, 0, 0.5)).decay(slider(0.15, 0, 1)).sustain(slider(0.3, 0, 1))
+    .release(slider(0.2, 0, 2)).speed(slider(1, 0.5, 2)).distort(slider(0, 0, 1.4))
+    .color("steelblue"),
+
+  // ── HATS — soft, half-buried ──────────────────────────────────
+  s("hh*8")
+    .gain(slider(0.16, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(7200, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── FOG — filtered white noise, the title character ───────────
+  s("white")
+    .gain(slider(0.16, 0, 0.5)).pan(slider(0.5, 0, 1)).lpf(slider(350, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(80, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(2, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — 0-5-6-0 chord cycle, one per cycle ──────────────────
+  note("<[d3,f3,a3] [bb3,d4,f4] [c4,e4,g4] [d3,f3,a3]>").sound("sawtooth").vowel("<u o>")
+    .gain(slider(0.24, 0, 0.7)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 200, 6000))
+    .lpq(slider(3, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.45, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(1.2, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray"),
+
+  // ── FOGHORN — the motif that returns at the end of the album ──
+  note("d2 ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~").sound("sawtooth").vowel("o")
+    .gain(slider(0.3, 0, 0.9)).pan(slider(0.5, 0, 1)).lpf(slider(500, 100, 2000))
+    .lpq(slider(2, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.75, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(1.2, 0, 4)).decay(slider(0.5, 0, 2)).sustain(slider(0.8, 0, 1))
+    .release(slider(2.2, 0, 6)).speed(slider(1, 0.5, 2)).vib(slider(3, 0, 8))
+    .vibmod(slider(0.15, 0, 0.6))
+    .color("cadetblue")
+)

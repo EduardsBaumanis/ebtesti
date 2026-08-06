@@ -1,0 +1,92 @@
+// ══════════════════════════════════════════════════════════════
+// "White-Out Corridor"
+// Track 8 of 24 · Fog Techno
+//
+// Key:    D Phrygian
+// Tempo:  129 BPM  (setcpm 32.25)
+// Mood:   Visibility drops to arm's length. The only way through is forward.
+//
+// SLIDER MAP
+//   hats.hpf pushed way up + fog.gain pushed up together make the "can't see" feeling.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(32.25, 27.25, 38.25))
+
+stack(
+
+  // ── KICK — hard, close, urgent ────────────────────────────────
+  s("bd bd ~ bd  ~ bd ~ ~")
+    .gain(slider(0.8, 0, 1.1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.3, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — tense low pedal ─────────────────────────────────────
+  note("d1*4").sound("sine")
+    .gain(slider(0.68, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.08, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── BASS — phrygian tension, half-step pull ───────────────────
+  note("d2 ~ ~ d2  c3 ~ ~ c3  bb2 ~ ~ bb2  c3 ~ ~ c3").sound("square")
+    .gain(slider(0.48, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(700, 150, 3600))
+    .lpq(slider(12, 0, 20)).hpf(slider(30, 20, 800)).shape(slider(0.2, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.08, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(0.005, 0, 0.5)).decay(slider(0.15, 0, 1)).sustain(slider(0.3, 0, 1))
+    .release(slider(0.2, 0, 2)).speed(slider(1, 0.5, 2)).distort(slider(0, 0, 1.4))
+    .color("steelblue"),
+
+  // ── HATS — pushed bright, almost painful ──────────────────────
+  s("hh*16")
+    .gain(slider(0.26, 0, 0.7)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(9500, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── CLAP — flat, no room ──────────────────────────────────────
+  s("~ cp ~ cp")
+    .gain(slider(0.4, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(4000, 300, 10000))
+    .lpq(slider(3, 0, 20)).hpf(slider(400, 20, 4000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.05, 0, 1)).size(slider(0.35, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.25, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.08, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.12, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("lightslategray"),
+
+  // ── FOG — total white-out, thick and close ────────────────────
+  s("white")
+    .gain(slider(0.26, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(250, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(150, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(2, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — phrygian dread, close voicing ───────────────────────
+  note("<[d3,f3,a3] [c4,eb4,g4] [bb3,d4,f4] [c4,eb4,g4]>").sound("sawtooth").vowel("i")
+    .gain(slider(0.24, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 200, 6000))
+    .lpq(slider(6, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.45, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(1.2, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray")
+)

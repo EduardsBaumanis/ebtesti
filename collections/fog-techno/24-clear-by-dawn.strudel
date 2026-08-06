@@ -1,0 +1,104 @@
+// ══════════════════════════════════════════════════════════════
+// "Clear by Dawn"
+// Track 24 of 24 · Fog Techno
+//
+// Key:    F Lydian
+// Tempo:  116 BPM  (setcpm 29)
+// Mood:   Full visibility. The horn sounds once more, now just for the memory of it.
+//
+// SLIDER MAP
+//   Every fog-noise default in this file is near 0 — the mist is a choice again, not a condition.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(29, 24, 35))
+
+stack(
+
+  // ── KICK — soft, unhurried close ──────────────────────────────
+  s("bd ~ bd ~  bd ~ bd ~")
+    .gain(slider(0.65, 0, 1.1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.25, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — warm and settled ────────────────────────────────────
+  note("f1 ~ ~ ~  ~ ~ ~ ~").sound("sine")
+    .gain(slider(0.58, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.08, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── BASS — lydian resolve ─────────────────────────────────────
+  note("f2 ~ f2 ~  c3 ~ c3 ~  d3 ~ d3 ~  b2 ~ b2 ~").sound("sawtooth")
+    .gain(slider(0.4, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 150, 4500))
+    .lpq(slider(9, 0, 20)).hpf(slider(30, 20, 800)).shape(slider(0.2, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.08, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(0.005, 0, 0.5)).decay(slider(0.15, 0, 1)).sustain(slider(0.3, 0, 1))
+    .release(slider(0.2, 0, 2)).speed(slider(1, 0.5, 2)).distort(slider(0, 0, 1.4))
+    .color("steelblue"),
+
+  // ── HATS — light, almost ornamental ───────────────────────────
+  s("hh*8")
+    .gain(slider(0.16, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(6000, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── FOG — nearly nothing left, by choice ──────────────────────
+  s("white")
+    .gain(slider(0.03, 0, 0.5)).pan(slider(0.5, 0, 1)).lpf(slider(3000, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(80, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(2, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — full lydian daylight ────────────────────────────────
+  note("<[f3,a3,c4,e4] [c4,e4,g4,b4] [d4,f4,a4,c5] [b3,d4,f4,a4]>").sound("sawtooth").vowel("a")
+    .gain(slider(0.32, 0, 0.75)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 200, 6000))
+    .lpq(slider(3, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.45, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(1.5, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(3, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray"),
+
+  // ── LEAD — one clear held note to close the record ────────────
+  note("f6 ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~").sound("sine")
+    .gain(slider(0.3, 0, 0.8)).pan(slider(0.5, 0, 1)).lpf(slider(2200, 300, 8000))
+    .lpq(slider(6, 0, 20)).hpf(slider(150, 20, 2000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.3, 0, 1)).size(slider(0.5, 0, 1))
+    .delay(slider(0.25, 0, 0.9)).delaytime(slider(0.3, 0.06, 1.5)).delayfeedback(slider(0.35, 0, 0.9))
+    .attack(slider(0.6, 0, 3)).decay(slider(0.1, 0, 1)).sustain(slider(0.2, 0, 1))
+    .release(slider(3, 0, 8)).speed(slider(1, 0.5, 2)).vib(slider(0, 0, 8))
+    .vibmod(slider(0, 0, 0.6))
+    .color("powderblue"),
+
+  // ── FOGHORN — the motif, one last time, at peace ──────────────
+  note("f2 ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~").sound("sawtooth").vowel("o")
+    .gain(slider(0.34, 0, 0.9)).pan(slider(0.5, 0, 1)).lpf(slider(500, 100, 2000))
+    .lpq(slider(2, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.75, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(1.2, 0, 4)).decay(slider(0.5, 0, 2)).sustain(slider(0.8, 0, 1))
+    .release(slider(3.5, 0, 8)).speed(slider(1, 0.5, 2)).vib(slider(3, 0, 8))
+    .vibmod(slider(0.15, 0, 0.6))
+    .color("cadetblue")
+)

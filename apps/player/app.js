@@ -203,7 +203,144 @@ function isPublicSongId(songId) {
   return playerPlaylists().some(pl => pl.id === plId);
 }
 
+// ── Live collection discovery ─────────────────────────────────────────────────
+//
+// playlists.js still supplies each collection's id/label/theme/path (and an
+// initial `files` list so the sidebar has something correct to paint
+// immediately). But that list is hand-maintained, so it can lag behind
+// what's actually in collections/<name>/. To make "drop a file in the
+// folder" work here the same way it already does in apps/izlase, we fetch
+// the real file list live — GitHub Contents API on the deployed site,
+// directory-listing HTML as a local-dev fallback — and patch it in.
+//
+// Discovery is lazy (only for the collection currently open) rather than
+// firing for all ~30 collections on load: GitHub's unauthenticated Contents
+// API is rate-limited per IP, and most sessions only ever look at a handful
+// of albums.
+
+function detectRepo() {
+  const host = location.hostname;
+  const path = location.pathname;
+  if (host.endsWith('.github.io')) {
+    const owner = host.split('.')[0];
+    const m = path.match(/^\/([^/]+)\//);
+    if (m) return { owner, repo: m[1] };
+  }
+  return { owner: 'eduardsbaumanis', repo: 'ebtesti' };
+}
+
+const REPO   = detectRepo();
+const BRANCH = 'main';
+const discoveredFiles   = new Map(); // playlist.id -> string[] (resolved list)
+const discoveryInFlight = new Map(); // playlist.id -> Promise
+
+// pl.path is page-relative (e.g. "../../collections/fog-techno/"). The
+// GitHub Contents API needs a repo-root-relative path instead, so resolve
+// the URL against this page and slice from the "collections" segment —
+// works whether Pages serves from a repo subpath or the app runs at root.
+function repoRelativePath(pl) {
+  const resolved = new URL(pl.path, window.location.href).pathname;
+  const parts = resolved.split('/').filter(Boolean);
+  const idx = parts.indexOf('collections');
+  if (idx === -1) return null;
+  return parts.slice(idx).join('/').replace(/\/$/, '');
+}
+
+async function discoverViaGithub(folderPath) {
+  const url = `https://api.github.com/repos/${REPO.owner}/${REPO.repo}/contents/${folderPath}?ref=${BRANCH}`;
+  const res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
+  if (!res.ok) throw new Error('github api HTTP ' + res.status);
+  const items = await res.json();
+  return items
+    .filter(x => x.type === 'file' && /\.(strudel|txt)$/.test(x.name))
+    .map(x => x.name)
+    .sort();
+}
+
+async function discoverViaDirListing(pagePath) {
+  const res = await fetch(new URL(pagePath, window.location.href).href);
+  if (!res.ok) throw new Error('dir listing HTTP ' + res.status);
+  const html = await res.text();
+  const names = new Set();
+  for (const m of html.matchAll(/href="([^"]+\.(?:strudel|txt))"/g)) {
+    const base = decodeURIComponent(m[1]).split('/').pop();
+    if (base) names.add(base);
+  }
+  return [...names].sort();
+}
+
+// Fetch the live file list once per playlist per page load, then patch it
+// into `pl.files` and re-render just that group. Silently keeps whatever is
+// already on screen if both discovery paths fail (offline, rate-limited,
+// dir-listing unsupported by the host) — never worse than today's static list.
+function ensureDiscovery(pl) {
+  if (discoveredFiles.has(pl.id) || discoveryInFlight.has(pl.id)) return discoveryInFlight.get(pl.id);
+
+  const promise = (async () => {
+    let files = null;
+    const folderPath = repoRelativePath(pl);
+    if (folderPath) {
+      try { files = await discoverViaGithub(folderPath); } catch (_) { /* fall through */ }
+    }
+    if (!files || !files.length) {
+      try { files = await discoverViaDirListing(pl.path); } catch (_) { /* fall through */ }
+    }
+    if (files && files.length) {
+      discoveredFiles.set(pl.id, files);
+      applyDiscoveredFiles(pl, files);
+    }
+    discoveryInFlight.delete(pl.id);
+  })();
+
+  discoveryInFlight.set(pl.id, promise);
+  return promise;
+}
+
+function applyDiscoveredFiles(pl, files) {
+  const unchanged = files.length === pl.files.length && files.every((f, i) => f === pl.files[i]);
+  if (unchanged) return;
+  pl.files = files;
+  rebuildGroupSongs(pl);
+}
+
 // ── Sidebar (collapsible playlist tree) ──────────────────────────────────────
+
+function renderSongList(pl, listEl) {
+  listEl.innerHTML = '';
+  pl.files.forEach((filename, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'pl-song';
+    btn.dataset.playlist = pl.id;
+    btn.dataset.filename = filename;
+    btn.innerHTML = `
+      <span class="pl-num">${String(i + 1).padStart(2, '0')}</span>
+      <span class="pl-name">${humanize(filename)}</span>
+    `;
+    btn.addEventListener('click', () => {
+      updatePlayerUrl(pl, filename);
+      selectSong(pl, filename, i);
+      // Lazy-fetch title from the file for nicer labels
+      fetchSong(pl, filename).then(entry => {
+        btn.querySelector('.pl-name').textContent = entry.meta.title;
+      });
+    });
+    listEl.appendChild(btn);
+  });
+}
+
+// Called once live discovery resolves a (possibly different) file list for
+// an already-rendered group: repaint just that group's songs + count badge
+// rather than rebuilding the whole sidebar, so scroll position, expanded
+// groups, and the currently-playing highlight all stay put.
+function rebuildGroupSongs(pl) {
+  const group = elTree.querySelector(`.pl-group[data-id="${pl.id}"]`);
+  if (!group) return;
+  const list    = group.querySelector('.pl-list');
+  const countEl = group.querySelector('.pl-count');
+  if (list) renderSongList(pl, list);
+  if (countEl) countEl.textContent = String(pl.files.length).padStart(2, '0');
+  highlightActiveSong();
+}
 
 function buildSidebar() {
   elTree.innerHTML = '';
@@ -251,6 +388,7 @@ function buildSidebar() {
       const wasExpanded = group.classList.contains('expanded');
       toggleGroup(pl.id);
       updatePlayerUrl(pl);
+      ensureDiscovery(pl);
       if (!wasExpanded || !currentPlaylist || currentPlaylist.id !== pl.id) {
         selectSong(pl, pl.files[0], 0);
       }
@@ -259,25 +397,7 @@ function buildSidebar() {
     // Song list (hidden until group is expanded)
     const list = document.createElement('div');
     list.className = 'pl-list';
-    pl.files.forEach((filename, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'pl-song';
-      btn.dataset.playlist = pl.id;
-      btn.dataset.filename = filename;
-      btn.innerHTML = `
-        <span class="pl-num">${String(i + 1).padStart(2, '0')}</span>
-        <span class="pl-name">${humanize(filename)}</span>
-      `;
-      btn.addEventListener('click', () => {
-        updatePlayerUrl(pl, filename);
-        selectSong(pl, filename, i);
-        // Lazy-fetch title from the file for nicer labels
-        fetchSong(pl, filename).then(entry => {
-          btn.querySelector('.pl-name').textContent = entry.meta.title;
-        });
-      });
-      list.appendChild(btn);
-    });
+    renderSongList(pl, list);
 
     group.appendChild(header);
     group.appendChild(list);
@@ -602,6 +722,7 @@ function init() {
       selectBuildYourself();
     } else {
       expandGroup(initial.playlist.id);
+      ensureDiscovery(initial.playlist);
       // Pre-select the first song so the editor has something to show
       selectSong(initial.playlist, initial.filename, initial.idx);
     }

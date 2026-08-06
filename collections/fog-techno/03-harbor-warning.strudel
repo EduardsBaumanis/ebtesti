@@ -1,0 +1,93 @@
+// ══════════════════════════════════════════════════════════════
+// "Harbor Warning"
+// Track 3 of 24 · Fog Techno
+//
+// Key:    C Aeolian
+// Tempo:  124 BPM  (setcpm 31)
+// Mood:   Somewhere out past the breakwater, the horn sounds every eight bars.
+//
+// SLIDER MAP
+//   foghorn.vib + foghorn.release are the whole track — a slow, wavering low tone.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(31, 26, 37))
+
+stack(
+
+  // ── KICK — dry, close, dockside ───────────────────────────────
+  s("bd ~ ~ ~  bd ~ ~ ~")
+    .gain(slider(0.68, 0, 1.1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.25, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — underwater tonic ────────────────────────────────────
+  note("c1*2").sound("sine")
+    .gain(slider(0.6, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.08, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── HATS — rope-creak texture ─────────────────────────────────
+  s("hh*8")
+    .gain(slider(0.14, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(6500, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(10, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── RIM — bell-buoy clock ─────────────────────────────────────
+  s("~ rim ~ ~  ~ rim ~ rim")
+    .gain(slider(0.32, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(4000, 300, 10000))
+    .lpq(slider(3, 0, 20)).hpf(slider(900, 20, 4000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.35, 0, 1)).size(slider(0.35, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.25, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.08, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.12, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("lightslategray"),
+
+  // ── FOG — sea mist rolling across the harbor mouth ────────────
+  s("white")
+    .gain(slider(0.18, 0, 0.5)).pan(slider(0.5, 0, 1)).lpf(slider(300, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(80, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.5, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(2, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — slow chord bed under the horn ───────────────────────
+  note("<[c3,eb3,g3] [f3,ab3,c4] [g3,bb3,d4] [f3,ab3,c4]>").sound("sawtooth").vowel("u")
+    .gain(slider(0.22, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 200, 6000))
+    .lpq(slider(3, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.45, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(1.2, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray"),
+
+  // ── FOGHORN — the motif, stated in full for the first time ────
+  note("c2 ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~  ~ ~ ~ ~").sound("sawtooth").vowel("o")
+    .gain(slider(0.48, 0, 0.9)).pan(slider(0.5, 0, 1)).lpf(slider(500, 100, 2000))
+    .lpq(slider(2, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.75, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(1.2, 0, 4)).decay(slider(0.5, 0, 2)).sustain(slider(0.8, 0, 1))
+    .release(slider(3, 0, 8)).speed(slider(1, 0.5, 2)).vib(slider(3, 0, 8))
+    .vibmod(slider(0.15, 0, 0.6))
+    .color("cadetblue")
+)

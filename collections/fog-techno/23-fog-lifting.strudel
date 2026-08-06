@@ -1,0 +1,104 @@
+// ══════════════════════════════════════════════════════════════
+// "Fog Lifting"
+// Track 23 of 24 · Fog Techno
+//
+// Key:    D Mixolydian
+// Tempo:  123 BPM  (setcpm 30.75)
+// Mood:   It doesn't vanish so much as let go, in long grey ribbons peeling upward.
+//
+// SLIDER MAP
+//   fog.gain slides down while pad.gain and lead.gain default up — the balance of the mix itself is the fade.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(30.75, 25.75, 36.75))
+
+stack(
+
+  // ── KICK — confident, forward ─────────────────────────────────
+  s("bd ~ bd ~  bd ~ bd ~")
+    .gain(slider(0.76, 0, 1.1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.25, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — full and warm ───────────────────────────────────────
+  note("d1 ~ ~ ~  ~ ~ ~ ~").sound("sine")
+    .gain(slider(0.65, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.08, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── BASS — mixolydian lift, wide open ─────────────────────────
+  note("d2 ~ d2 ~  b2 ~ b2 ~  c3 ~ c3 ~  d2 ~ d2 ~").sound("sawtooth")
+    .gain(slider(0.46, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(1300, 150, 4500))
+    .lpq(slider(9, 0, 20)).hpf(slider(30, 20, 800)).shape(slider(0.2, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.08, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(0.005, 0, 0.5)).decay(slider(0.15, 0, 1)).sustain(slider(0.3, 0, 1))
+    .release(slider(0.2, 0, 2)).speed(slider(1, 0.5, 2)).distort(slider(0, 0, 1.4))
+    .color("steelblue"),
+
+  // ── HATS — bright, open, unhurried ────────────────────────────
+  s("hh*16")
+    .gain(slider(0.24, 0, 0.7)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(6000, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── CLAP — full room now ──────────────────────────────────────
+  s("~ cp ~ cp")
+    .gain(slider(0.42, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(4000, 300, 10000))
+    .lpq(slider(3, 0, 20)).hpf(slider(400, 20, 4000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.35, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.25, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.08, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.12, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("lightslategray"),
+
+  // ── FOG — thin ribbons, almost gone ───────────────────────────
+  s("white")
+    .gain(slider(0.08, 0, 0.5)).pan(slider(0.5, 0, 1)).lpf(slider(2200, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(80, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(2, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — wide, bright, unhidden ──────────────────────────────
+  note("<[d3,fs3,a3] [b3,d4,fs4] [c4,e4,g4] [d3,fs3,a3]>").sound("sawtooth").vowel("a")
+    .gain(slider(0.32, 0, 0.75)).pan(slider(0.5, 0, 1)).lpf(slider(1400, 200, 6000))
+    .lpq(slider(3, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(1.2, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray"),
+
+  // ── LEAD — clear line, nothing in the way ─────────────────────
+  note("d5 fs5 a5 b5 a5 fs5 d5 ~")
+    .sound("triangle")
+    .gain(slider(0.36, 0, 0.85)).pan(slider(0.5, 0, 1)).lpf(slider(2200, 300, 8000))
+    .lpq(slider(6, 0, 20)).hpf(slider(150, 20, 2000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.3, 0, 1)).size(slider(0.5, 0, 1))
+    .delay(slider(0.25, 0, 0.9)).delaytime(slider(0.3, 0.06, 1.5)).delayfeedback(slider(0.35, 0, 0.9))
+    .attack(slider(0.004, 0, 0.5)).decay(slider(0.1, 0, 1)).sustain(slider(0.2, 0, 1))
+    .release(slider(0.18, 0, 2)).speed(slider(1, 0.5, 2)).vib(slider(0, 0, 8))
+    .vibmod(slider(0, 0, 0.6))
+    .color("powderblue")
+)

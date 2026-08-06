@@ -1,0 +1,104 @@
+// ══════════════════════════════════════════════════════════════
+// "First Light Through Mist"
+// Track 2 of 24 · Fog Techno
+//
+// Key:    F Aeolian
+// Tempo:  122 BPM  (setcpm 30.5)
+// Mood:   Grey brightens to pearl for a moment before the fog closes again.
+//
+// SLIDER MAP
+//   pad.lpf opens gradually — this is the "sunrise filter" of the album.
+//   Every gain / filter / envelope / space / time knob below is a
+//   slider(default, min, max) — drag any of them mid-playback. Several
+//   default to 0 or "off" on purpose so the control exists even where
+//   the track doesn't use it yet.
+// ══════════════════════════════════════════════════════════════
+
+setcpm(slider(30.5, 25.5, 36.5))
+
+stack(
+
+  // ── KICK — steady pulse ───────────────────────────────────────
+  s("bd ~ bd ~  bd ~ bd ~")
+    .gain(slider(0.74, 0, 1.1)).pan(slider(0.5, 0, 1)).lpf(slider(180, 60, 4000))
+    .lpq(slider(6, 0, 20)).hpf(slider(20, 20, 800)).shape(slider(0.25, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.3)).decay(slider(0.1, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.15, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("dimgray"),
+
+  // ── SUB — tonic drone ─────────────────────────────────────────
+  note("f1 ~ ~ ~  ~ ~ ~ ~").sound("sine")
+    .gain(slider(0.68, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(600, 100, 3000))
+    .lpq(slider(3, 0, 20)).hpf(slider(20, 20, 300)).shape(slider(0.05, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.1, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.08, 0, 2)).decay(slider(0.2, 0, 1)).sustain(slider(0.6, 0, 1))
+    .release(slider(0.4, 0, 3)).speed(slider(1, 0.5, 2))
+    .color("midnightblue"),
+
+  // ── BASS — syncopated root motion ─────────────────────────────
+  note("f2 f2 ~ f2  ab2 ab2 ~ ab2  cs3 cs3 ~ cs3  c3 c3 ~ c3").sound("sawtooth")
+    .gain(slider(0.44, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(750, 150, 3800))
+    .lpq(slider(9, 0, 20)).hpf(slider(30, 20, 800)).shape(slider(0.2, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.08, 0, 1)).size(slider(0.3, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.375, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(0.005, 0, 0.5)).decay(slider(0.15, 0, 1)).sustain(slider(0.3, 0, 1))
+    .release(slider(0.2, 0, 2)).speed(slider(1, 0.5, 2)).distort(slider(0, 0, 1.4))
+    .color("steelblue"),
+
+  // ── HATS — fine, fast, distant ────────────────────────────────
+  s("hh*16")
+    .gain(slider(0.2, 0, 0.6)).pan(slider(0.5, 0, 1)).lpf(slider(8000, 2000, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(7000, 2000, 12000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.15, 0, 1)).size(slider(0.2, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.125, 0.06, 1.5)).delayfeedback(slider(0.1, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.03, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.04, 0, 1)).speed(slider(1, 0.5, 2))
+    .color("silver"),
+
+  // ── CLAP — soft backbeat ──────────────────────────────────────
+  s("~ cp ~ cp")
+    .gain(slider(0.4, 0, 1)).pan(slider(0.5, 0, 1)).lpf(slider(4000, 300, 10000))
+    .lpq(slider(3, 0, 20)).hpf(slider(400, 20, 4000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.3, 0, 1)).size(slider(0.35, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.25, 0.06, 1.5)).delayfeedback(slider(0.15, 0, 0.9))
+    .attack(slider(0.001, 0, 0.2)).decay(slider(0.08, 0, 1)).sustain(slider(0, 0, 1))
+    .release(slider(0.12, 0, 2)).speed(slider(1, 0.5, 2))
+    .color("lightslategray"),
+
+  // ── FOG — the haze this track slowly burns through ────────────
+  s("white")
+    .gain(slider(0.14, 0, 0.5)).pan(slider(0.5, 0, 1)).lpf(slider(500, 80, 12000))
+    .lpq(slider(2, 0, 20)).hpf(slider(80, 20, 4000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.4, 0, 1)).size(slider(0.6, 0, 1))
+    .delay(slider(0, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.2, 0, 0.9))
+    .attack(slider(2, 0, 8)).decay(slider(1, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 8)).speed(slider(1, 0.25, 2)).phaser(slider(0, 0, 8))
+    .phaserdepth(slider(0, 0, 1))
+    .color("gainsboro"),
+
+  // ── PAD — 4-chord loop, filter creeping open ──────────────────
+  note("<[f3,ab3,c4] [ab3,c4,eb4] [cs4,f4,ab4] [c4,eb4,g4]>").sound("sawtooth").vowel("<a o>")
+    .gain(slider(0.25, 0, 0.7)).pan(slider(0.5, 0, 1)).lpf(slider(900, 200, 6000))
+    .lpq(slider(3, 0, 20)).hpf(slider(60, 20, 2000)).shape(slider(0, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.45, 0, 1)).size(slider(0.7, 0, 1))
+    .delay(slider(0.1, 0, 0.9)).delaytime(slider(0.5, 0.06, 1.5)).delayfeedback(slider(0.25, 0, 0.9))
+    .attack(slider(1.2, 0, 8)).decay(slider(0.8, 0, 4)).sustain(slider(0.7, 0, 1))
+    .release(slider(2, 0, 10)).speed(slider(1, 0.5, 2)).phaser(slider(0.2, 0, 8))
+    .phaserdepth(slider(0.35, 0, 1))
+    .color("slategray"),
+
+  // ── LEAD — six-note run breaking through the grey ─────────────
+  note("f5 ~ ab5 c6 ~ cs6 c6 ~  ~ ab5 ~ f5 ~ ~ ~ ~")
+    .sound("triangle")
+    .gain(slider(0.3, 0, 0.8)).pan(slider(0.5, 0, 1)).lpf(slider(2200, 300, 8000))
+    .lpq(slider(6, 0, 20)).hpf(slider(150, 20, 2000)).shape(slider(0.1, 0, 1))
+    .crush(slider(16, 1, 16)).room(slider(0.3, 0, 1)).size(slider(0.5, 0, 1))
+    .delay(slider(0.25, 0, 0.9)).delaytime(slider(0.3, 0.06, 1.5)).delayfeedback(slider(0.35, 0, 0.9))
+    .attack(slider(0.004, 0, 0.5)).decay(slider(0.1, 0, 1)).sustain(slider(0.2, 0, 1))
+    .release(slider(0.18, 0, 2)).speed(slider(1, 0.5, 2)).vib(slider(0, 0, 8))
+    .vibmod(slider(0, 0, 0.6))
+    .color("powderblue")
+)
